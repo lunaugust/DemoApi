@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="DemoApiNotas" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Users\\lunaugust\\documents\\visual\ studio\ 2015\\Projects\\DemoApi\\DemoApi\\obj\\Debug\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\Users\\lunaugust\\documents\\visual\ studio\ 2015\\Projects\\DemoApi\\DemoApi\\obj\\Debug\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DemoApiContext-Web.config Connection String" description="" value="Data Source=tcp:azuretest.database.windows.net,1433;Initial Catalog=Databaseazure;Persist Security Info=False;User ID=lunaugust@azuretest;Password=AntoniO.LunA;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\Users\\lunaugust\\documents\\visual\ studio\ 2015\\Projects\\DemoApi\\DemoApi\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DemoApiContext']/@connectionString" />
+  </parameter>
+</parameters>
