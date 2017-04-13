@@ -1,46 +1,38 @@
 ﻿var uri = 'api/notas';
-
+var items;
+var edit = false;
 $(document).ready(function () {
    
+    
     getAllNotes();
-    $('.notas-sep').mouseenter(function () {
-        $(this).animate({
-            height: '+=10px'
-        });
-    });
-    $('.notas-sep').mouseleave(function () {
-        $(this).animate({
-            height: '-=10px'
-        });
-        $(this).fadeTo('fast', 0.5);
-    });
-   
+    clearText();
+    
 
     $('#save').on('click', save);
+    
 });
+function clearText() {
+    $('#nombre').val('');
+    $('#texto').val('');
+}
 function deleteItem(ID) {
     $.ajax(uri + '/' + ID, { method: "DELETE" });
     $('#' + ID).remove();
 
 }
-function editItem(item){
-    //$.ajax(uri + '/' + ID, { method: "PUT" });
-    $('#nombre').val('HOLAS');
-    $('#texto').val(item.texto);
-    alert('click');
+function editItem(ID){
     
-    /*var nombre = $('#nombre').val();
-    var texto = $('#texto').val();
-    var nota = { 'nombre': nombre, 'texto': texto }
-    $.ajax(uri + '/' + item.ID, {
-        method: "PUT",
-        contentType: "application/json",
-        data: nota,
+   
+    items.forEach(function (item) {
+        if (item.ID === ID) {
+            $('#nombre').val(item.nombre);
+            $('#texto').val(item.texto);
+            $('#hidden').val(item.ID);
+        }
 
-        function() {
-            getAllNotes();
-        } */
-     }   
+        console.log('click edit');
+    });
+}
 
 
 
@@ -48,16 +40,31 @@ function getAllNotes() {
     // Send an AJAX request
     $.getJSON(uri)
         .done(function (data) {
-            var itid = 0;
             // On success, 'data' contains a list of products.
-            //$('#notas').html('');
+            $('#notas').html('');
+            items = data;
             $.each(data, function (key, item) {
                 // Add a list item for the product.
-                itid = item.ID;
-                $('<div class="notas-sep" id=' + itid + '>').appendTo($('#notas'));
-                $('#' + item.ID).append('<button onclick="editItem(' + item + ')">Edit</button>');
+                
+                $('<div class="notas-sep" id=' + item.ID + '>').appendTo($('#notas'));
+                
+                $('#' + item.ID).append("<button onclick='editItem("+item.ID+")'>Edit</button>");
                 $('#' + item.ID).append('<button onclick="deleteItem(' + item.ID + ')">x</button>');
                 $('#' + item.ID).append('<li> ' + formatItem(item) + '</li>');
+            });
+            $('.notas-sep').mouseenter(function () {
+                $(this).animate({
+                    height: '+=10px',
+                    width:'+=10px'
+                    
+                });
+            });
+            $('.notas-sep').mouseleave(function () {
+                $(this).animate({
+                    height: '-=10px',
+                    width: '-=10px'
+                });
+                
             });
         });
 }
@@ -77,21 +84,41 @@ function find() {
 }
 
 function save() {
+    var hidden = $('#hidden').val();
+    
+    if (hidden) {
+        
+        var nombre = $('#nombre').val();
+        var texto = $('#texto').val();
+        var nota = { 'ID': hidden, 'nombre': nombre, 'texto': texto }
+        
+        $.ajax(uri + '/' + hidden, {
+            method: "PUT",
+            data: nota,
+            success: function () {
+                $('#hidden').val('');
+                getAllNotes();
+            }
+        });
+        
+        console.log('edita');
+    }
+    else {
+        var nombre = $('#nombre').val();
+        var texto = $('#texto').val();
+        var nota = { 'nombre': nombre, 'texto': texto }
+        $.post(uri, nota, function () {
+            getAllNotes();
 
-    var nombre = $('#nombre').val();
-    var texto = $('#texto').val();
-    var nota = { 'nombre': nombre, 'texto': texto }
-    $.post(uri, nota, function () {
-        getAllNotes();
-
-    });
+        });
+        
+    }
+    
     clearText();
 
 
-    function clearText() {
-        $('#nombre').val('');
-        $('#texto').val('');
-    }
+
+    
 
     //.fail(function (jqXHR, textStatus, err) {
     //    $('#errorSave').text('Error: ' + err);

@@ -3,20 +3,23 @@
     padding: 2em;
     background-color: whitesmoke;
 }
+#notas {
+    position:relative;
+}
 .notas-sep{
-    
+    position:relative;
     justify-content: space-between;
-    flex-wrap: wrap;
+    /*/flex-wrap: wrap;*/
     background-color: #E55126;
     height:100px;
     width:100px;
     display: inline-block;
     text-align: center;
     padding: 1em 3em 2em 2em;
-    margin: 0.5em;
+    /*/margin: 0.5em;*/
     color: whitesmoke;
-    border-radius:5px
+    border-radius:5px;
 }
-ul {
+il {
     list-style: none;
 }
